@@ -9,7 +9,7 @@ const fs = require('fs')
 const files = glob.sync('./resources/*.yaml')
 const chars = files.reduce((chars, file) => {
   const charInfo = YAML.parse(fs.readFileSync(file, 'utf8'))
-  chars[charInfo.name] = charInfo
+  chars[charInfo.name.toLowerCase()] = charInfo
   return chars
 }, {})
 
@@ -18,7 +18,7 @@ app.get('/', (req, res) => {
 })
 
 app.get('/char/:name', (req, res) => {
-  const name = req.params.name
+  const name = req.params.name.toLowerCase()
   res.send(JSON.stringify(chars[name]))
 })
 
