@@ -13,14 +13,20 @@ const chars = files.reduce((chars, file) => {
   return chars
 }, {})
 
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Credentials', true);
+  res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Origin,X-Requested-With,Content-Type,Accept,content-type,application/json');
+  next();
+});
+
 app.get('/', (req, res) => {
-  res.setHeader('Access-Control-Allow-Origin', '*');
   res.send(JSON.stringify(Object.keys(chars)))
 })
 
 app.get('/char/:name', (req, res) => {
   const name = req.params.name.toLowerCase()
-  res.setHeader('Access-Control-Allow-Origin', '*');
   res.send(JSON.stringify(chars[name]))
 })
 
